@@ -70,17 +70,17 @@ function TestaCPF(document) {
 
 function helpText(field, input) {
   
-    var resultValid = TestaCPF(field);
+    var resultCPFValido = TestaCPF(field);
     var CPFfield = document.getElementById(input);
 
-    if (!resultValid) {
-        CPFfield.classList.add("text-danger")
-        CPFfield.innerHTML = "CPF inválido.";
+    if (resultCPFValido) {
+        CPFfield.classList.remove("text-danger")
+        CPFfield.innerHTML = "";
         return;
     }
 
-    CPFfield.classList.remove("text-danger")
-    CPFfield.innerHTML = "";
+    CPFfield.classList.add("text-danger")
+    CPFfield.innerHTML = "CPF inválido.";
 }
 
 function ModalDialog(titulo, texto) {

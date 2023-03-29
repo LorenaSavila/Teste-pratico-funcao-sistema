@@ -65,22 +65,37 @@ function TestaCPF(document) {
     var Resto;
     Soma = 0;
     var strCPF = document.value.replace(/[^0-9]/g, '');
-    console.log('aqwe');
-    if (strCPF == "00000000000") return ModalDialog("Ocorreu um erro", "CPF inválido.");
+
+    if (strCPF == "00000000000") return false;
 
     for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
     Resto = (Soma * 10) % 11;
 
     if ((Resto == 10) || (Resto == 11)) Resto = 0;
-    if (Resto != parseInt(strCPF.substring(9, 10))) return ModalDialog("Ocorreu um erro", "CPF inválido.");;
+    if (Resto != parseInt(strCPF.substring(9, 10))) return false;
 
     Soma = 0;
     for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
     Resto = (Soma * 10) % 11;
 
     if ((Resto == 10) || (Resto == 11)) Resto = 0;
-    if (Resto != parseInt(strCPF.substring(10, 11))) return ModalDialog("Ocorreu um erro", "CPF inválido.");;
+    if (Resto != parseInt(strCPF.substring(10, 11))) return false;
     return true;
+}
+
+function helpText(field, input) {
+
+    var resultCPFValido = TestaCPF(field);
+    var CPFfield = document.getElementById(input);
+
+    if (resultCPFValido) {
+        CPFfield.classList.remove("text-danger")
+        CPFfield.innerHTML = "";
+        return;
+    }
+
+    CPFfield.classList.add("text-danger")
+    CPFfield.innerHTML = "CPF inválido.";
 }
 
 function ModalDialog(titulo, texto) {
