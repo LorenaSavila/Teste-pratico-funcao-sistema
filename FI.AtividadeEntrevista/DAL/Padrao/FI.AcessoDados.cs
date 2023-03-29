@@ -27,6 +27,7 @@ namespace FI.AtividadeEntrevista.DAL
         {
             SqlCommand comando = new SqlCommand();
             SqlConnection conexao = new SqlConnection(stringDeConexao);
+
             comando.Connection = conexao;
             comando.CommandType = System.Data.CommandType.StoredProcedure;
             comando.CommandText = NomeProcedure;

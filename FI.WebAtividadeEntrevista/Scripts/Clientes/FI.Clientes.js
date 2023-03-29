@@ -7,6 +7,7 @@ $(document).ready(function () {
             method: "POST",
             data: {
                 "NOME": $(this).find("#Nome").val(),
+                "CPF": $(this).find("#CPF").val(),
                 "CEP": $(this).find("#CEP").val(),
                 "Email": $(this).find("#Email").val(),
                 "Sobrenome": $(this).find("#Sobrenome").val(),
@@ -32,6 +33,19 @@ $(document).ready(function () {
     })
     
 })
+
+function format(document) {
+    var mask = "###.###.###-##";
+    var documentLength = document.value.length;
+    var substring = mask.substring(0, 1);
+    var text = mask.substring(documentLength);
+
+    if (text.substring(0, 1) != substring) {
+        document.value += text.substring(0, 1)
+    }
+    console.log("valor: ", document.value.replace(/[^0-9]/g, ''))
+}
+
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
