@@ -22,7 +22,7 @@ $(document).ready(function () {
             data: {
                 "NOME": $(this).find("#Nome").val(),
                 "CEP": $(this).find("#CEP").val(),
-                "CPF": $(this).find("#CPF").val(),
+                "CPF": $(this).find("#CPF").val().replace(/[^0-9]/g, ''),
                 "Email": $(this).find("#Email").val(),
                 "Sobrenome": $(this).find("#Sobrenome").val(),
                 "Nacionalidade": $(this).find("#Nacionalidade").val(),
@@ -48,6 +48,40 @@ $(document).ready(function () {
     })
     
 })
+
+function format(document) {
+    var mask = "###.###.###-##";
+    var documentLength = document.value.length;
+    var substring = mask.substring(0, 1);
+    var text = mask.substring(documentLength);
+
+    if (text.substring(0, 1) != substring) {
+        document.value += text.substring(0, 1)
+    }
+}
+
+function TestaCPF(document) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+    var strCPF = document.value.replace(/[^0-9]/g, '');
+    console.log('aqwe');
+    if (strCPF == "00000000000") return ModalDialog("Ocorreu um erro", "CPF inválido.");
+
+    for (i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(9, 10))) return ModalDialog("Ocorreu um erro", "CPF inválido.");;
+
+    Soma = 0;
+    for (i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto == 10) || (Resto == 11)) Resto = 0;
+    if (Resto != parseInt(strCPF.substring(10, 11))) return ModalDialog("Ocorreu um erro", "CPF inválido.");;
+    return true;
+}
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');

@@ -26,7 +26,7 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            
+      
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -36,8 +36,15 @@ namespace WebAtividadeEntrevista.Controllers
                 Response.StatusCode = 400;
                 return Json(string.Join(Environment.NewLine, erros));
             }
-            else
-            {
+
+            var existeCPF = bo.VerificarExistencia(model.CPF);
+
+            if (existeCPF){
+                Response.StatusCode = 400;
+                return Json("CPF já cadastrado.");
+
+            }
+            else{
                 
                 model.Id = bo.Incluir(new Cliente()
                 {                    
